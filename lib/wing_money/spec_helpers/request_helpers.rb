@@ -1,5 +1,3 @@
-require "vcr"
-
 module WingMoney
   module SpecHelpers
     class RequestHelpers
@@ -11,13 +9,15 @@ module WingMoney
       end
 
       def last_request_body
-        WebMock::Util::QueryMapper.query_to_values(WebMock.requests.last.body)
+        if last_request = WebMock.requests.last
+          WebMock::Util::QueryMapper.query_to_values(WebMock.requests.last.body) if last_request
+        end
       end
 
       private
 
       def transaction_endpoint(request_type)
-        api_endpoint = ENV["WING_MONEY_API_ENDPOINT"] || "https://wing.bongloy.com/api/v1"
+        api_endpoint = ENV["WING_API_ENDPOINT"] || "https://wing.bongloy.com/api/v1"
         "#{api_endpoint}/wing_transaction/#{request_type}"
       end
     end
