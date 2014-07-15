@@ -26,7 +26,7 @@ module WingMoney
           end
         end
 
-        describe "#execute!", :focus do
+        describe "#execute!" do
           let(:asserted_request_params) { subject.params }
 
           def do_execute

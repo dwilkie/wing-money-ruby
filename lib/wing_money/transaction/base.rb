@@ -19,7 +19,6 @@ module WingMoney
 
       def execute!
         self.params = client.execute_transaction!(resource_endpoint, api_key, payload)
-        raise(::WingMoney::Error::Api::TransactionNotExecutedError) unless executed?
         true
       end
 

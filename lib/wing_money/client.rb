@@ -24,13 +24,19 @@ module WingMoney
     def handle_response(response)
       unless response.success?
         if response.code == 401
-          raise(::WingMoney::Error::Api::AuthenticationError)
-        elsif response.code == 422 || response.code == 400
-          raise(::WingMoney::Error::Api::InvalidRequestError.new(:message => response.body))
-        elsif response.code == 404
-          raise(::WingMoney::Error::Api::NotFoundError.new(:resource => response.request.path.to_s))
+          raise(
+            ::WingMoney::Error::Api::AuthenticationError.new(response.code)
+          )
+        elsif response.code == 422
+          raise(
+            ::WingMoney::Error::Api::InvalidRequestError.new(
+              response.code, :errors => response.body
+            )
+          )
         else
-          raise(::WingMoney::Error::Api::Base)
+          raise(
+            ::WingMoney::Error::Api::BaseError.new(response.code)
+          )
         end
       end
       response.body ? JSON.parse(response.body) : {}

@@ -1,4 +1,14 @@
 FactoryGirl.define do
+  factory :error, :class => WingMoney::Error::Api::BaseError do
+    skip_create
+
+    code "401"
+
+    initialize_with { new(code) }
+    factory :invalid_request_error, :class => WingMoney::Error::Api::InvalidRequestError
+    factory :authentication_error, :class => WingMoney::Error::Api::AuthenticationError
+  end
+
   factory :wing_transaction, :class => WingMoney::Transaction::Base do
     skip_create
 
