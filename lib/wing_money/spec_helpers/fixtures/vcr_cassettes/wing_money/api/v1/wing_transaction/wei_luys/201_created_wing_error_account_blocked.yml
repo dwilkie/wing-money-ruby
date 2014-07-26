@@ -1,0 +1,54 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <%= endpoint %>
+    body:
+      encoding: UTF-8
+      string: wing_transaction_wei_luy[amount]=1000&wing_transaction_wei_luy[wing_account_number]=884832&wing_transaction_wei_luy[wing_account_pin]=1234&wing_transaction_wei_luy[user_id]=wing-api-user-id&wing_transaction_wei_luy[password]=wing-api-secret&wing_transaction_wei_luy[recipient_mobile]=85512239137
+    headers:
+      Authorization:
+      - Bearer test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Status:
+      - 201 Created
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Etag:
+      - '"52a9ca1145978d137c37106065abf088"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 00c69743-6d14-492e-ba67-30d9288581c8
+      X-Runtime:
+      - '1.293817'
+      X-Powered-By:
+      - Phusion Passenger 4.0.46
+      Date:
+      - Sat, 26 Jul 2014 12:02:43 GMT
+      Server:
+      - nginx/1.6.0 + Phusion Passenger 4.0.46
+    body:
+      encoding: UTF-8
+      string: '{"id":14,"livemode":false,"created_at":"2014-07-26T12:02:42.459Z","result":{"wing_response":{"successful":false,"raw":{"req_wing_wei_luy_response":{"return":"\u003cStandardResponse\u003e\u003cErrorCode\u003e401\u003c/ErrorCode\u003e\u003cDetailResponse\u003eAccount
+        of wing-api-user-id was blocked!!!\u003c/DetailResponse\u003e\u003cTransactionID\u003eN/A\u003c/TransactionID\u003e\u003c/StandardResponse\u003e","@xmlns:ns":"http://external.ws.wingmoney.com"}},"result":null,"error_code":"401","error_message":"Account
+        of wing-api-user-id was blocked!!!","amount_khr":null,"amount_usd":null,"balance":{"amount":null,"currency":null},"total":{"amount":null,"currency":null},"fee":{"amount":null,"currency":null},"transaction_id":null,"tid":null,"recipient_mobile":null,"recipient_code":null}},"executed":true}'
+    http_version:
+  recorded_at: Sat, 26 Jul 2014 12:02:41 GMT
+recorded_with: VCR 2.9.2

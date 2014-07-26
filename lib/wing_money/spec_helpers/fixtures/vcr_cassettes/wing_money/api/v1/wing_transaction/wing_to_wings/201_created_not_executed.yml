@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <%= endpoint %>
+    body:
+      encoding: UTF-8
+      string: wing_transaction_wing_to_wing[amount]=1000&wing_transaction_wing_to_wing[wing_account_number]=884832&wing_transaction_wing_to_wing[wing_account_pin]=1234&wing_transaction_wing_to_wing[user_id]=wing-api-user-id&wing_transaction_wing_to_wing[password]=wing-api-secret&wing_transaction_wing_to_wing[wing_destination_account_number]=884834
+    headers:
+      Authorization:
+      - Bearer test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Status:
+      - 201 Created
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Etag:
+      - '"b320364d38bd1a43a21100d25f61a332"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - c5527d5b-c124-400c-959d-1078587fd892
+      X-Runtime:
+      - '0.034408'
+      X-Powered-By:
+      - Phusion Passenger 4.0.46
+      Date:
+      - Sat, 26 Jul 2014 11:57:33 GMT
+      Server:
+      - nginx/1.6.0 + Phusion Passenger 4.0.46
+    body:
+      encoding: UTF-8
+      string: '{"id":13,"livemode":false,"created_at":"2014-07-26T11:57:33.946Z","result":null,"executed":false}'
+    http_version:
+  recorded_at: Sat, 26 Jul 2014 11:57:31 GMT
+recorded_with: VCR 2.9.2

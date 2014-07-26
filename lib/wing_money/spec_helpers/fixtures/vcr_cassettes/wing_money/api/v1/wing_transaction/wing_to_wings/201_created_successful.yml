@@ -1,0 +1,56 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <%= endpoint %>
+    body:
+      encoding: UTF-8
+      string: wing_transaction_wing_to_wing[amount]=1000&wing_transaction_wing_to_wing[wing_account_number]=1614&wing_transaction_wing_to_wing[wing_account_pin]=2008&wing_transaction_wing_to_wing[user_id]=chibi_testing&wing_transaction_wing_to_wing[password]=WingChibi&wing_transaction_wing_to_wing[wing_destination_account_number]=1615
+    headers:
+      Authorization:
+      - Bearer test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Status:
+      - 201 Created
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Etag:
+      - '"13bc958ee0229bc0c000f9ae52b12430"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - d799677b-9767-40e5-841f-8bf274eb6cfe
+      X-Runtime:
+      - '1.386851'
+      X-Powered-By:
+      - Phusion Passenger 4.0.46
+      Date:
+      - Sat, 26 Jul 2014 12:13:29 GMT
+      Server:
+      - nginx/1.6.0 + Phusion Passenger 4.0.46
+    body:
+      encoding: UTF-8
+      string: '{"id":19,"livemode":false,"created_at":"2014-07-26T12:13:28.391Z","result":{"wing_response":{"successful":true,"raw":{"req_wing2_wing_response":{"return":"\u003cStandardResponse\u003e\u003cErrorCode\u003e200\u003c/ErrorCode\u003e\u003cDetailResponse\u003eSuccess
+        W2W\nTo WCX KHR\nWING # 00001615\nAmt: 10.00USD=40,100KHR\nFee: 0.00USD\nTotal:
+        10.00USD\nBal: 94,666.78USD\nTID : EAA747563\u003c/DetailResponse\u003e\u003cTransactionID\u003eEAA747563\u003c/TransactionID\u003e\u003c/StandardResponse\u003e","@xmlns:ns":"http://external.ws.wingmoney.com"}},"result":"Success
+        W2W","error_code":"200","error_message":"Success W2W","amount_khr":40100,"amount_usd":1000,"balance":{"amount":9466678,"currency":"usd"},"total":{"amount":1000,"currency":"usd"},"fee":{"amount":0,"currency":"usd"},"transaction_id":"EAA747563","tid":"EAA747563","recipient_account_name":"WCX
+        KHR","recipient_account_number":"1615"}},"executed":true}'
+    http_version:
+  recorded_at: Sat, 26 Jul 2014 12:13:27 GMT
+recorded_with: VCR 2.9.2

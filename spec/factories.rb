@@ -33,8 +33,16 @@ FactoryGirl.define do
     user_id { params[:user_id] }
     password { params[:password] }
 
-    factory :wing_online_payment_transaction, :class => WingMoney::Transaction::OnlinePayment do
+    factory :online_payment_transaction, :class => WingMoney::Transaction::OnlinePayment do
       biller_code { params[:biller_code] }
+    end
+
+    factory :wei_luy_transaction, :class => WingMoney::Transaction::WeiLuy do
+      recipient_mobile { params[:recipient_mobile] }
+    end
+
+    factory :wing_to_wing_transaction, :class => WingMoney::Transaction::WingToWing do
+      wing_destination_account_number { params[:wing_destination_account_number] }
     end
   end
 end

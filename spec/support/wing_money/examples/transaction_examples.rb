@@ -3,7 +3,11 @@ module WingMoney
     module TransactionExamples
       shared_examples_for "a wing money transaction" do
         subject { build(factory_name, :params => valid_factory_params) }
+
+        let(:api_helpers) { WingMoney::SpecHelpers::ApiHelpers.new }
         let(:request_helpers) { WingMoney::SpecHelpers::RequestHelpers.new }
+        let(:transaction_request_param)  { sample_transaction_request_params.keys.first }
+        let(:valid_factory_params) { sample_transaction_request_params[transaction_request_param] }
 
         def request_body
           request_helpers.last_request_body
@@ -15,7 +19,7 @@ module WingMoney
 
         [
           :amount, :wing_account_number, :wing_account_pin,
-          :user_id, :password, :biller_code
+          :user_id, :password
         ].each do |public_accessor|
           describe "##{public_accessor}" do
             it "should be a public accessor" do

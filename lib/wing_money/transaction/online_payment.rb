@@ -3,6 +3,11 @@ require_relative "./base"
 module WingMoney
   module Transaction
     class OnlinePayment < ::WingMoney::Transaction::Base
+
+      def biller_code=(value)
+        params[:biller_code] = value
+      end
+
       private
 
       def param_key

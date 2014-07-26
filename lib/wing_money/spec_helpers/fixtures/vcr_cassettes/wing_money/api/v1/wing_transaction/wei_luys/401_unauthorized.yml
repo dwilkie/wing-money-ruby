@@ -1,0 +1,55 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <%= endpoint %>
+    body:
+      encoding: UTF-8
+      string: wing_transaction_wei_luy[amount]=1000&wing_transaction_wei_luy[wing_account_number]=884832&wing_transaction_wei_luy[wing_account_pin]=1234&wing_transaction_wei_luy[user_id]=wing-api-user-id&wing_transaction_wei_luy[password]=wing-api-secret&wing_transaction_wei_luy[recipient_mobile]=85512239137
+    headers:
+      Authorization:
+      - Bearer
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Content-Type:
+      - text/html
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Status:
+      - 401 Unauthorized
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Cache-Control:
+      - no-store
+      Pragma:
+      - no-cache
+      Www-Authenticate:
+      - Bearer realm="Doorkeeper", error="invalid_token", error_description="The access
+        token is invalid"
+      X-Request-Id:
+      - 0052bced-aff9-4ba6-900f-95c9a80c5149
+      X-Runtime:
+      - '0.098629'
+      X-Powered-By:
+      - Phusion Passenger 4.0.46
+      Date:
+      - Sat, 26 Jul 2014 12:00:42 GMT
+      Server:
+      - nginx/1.6.0 + Phusion Passenger 4.0.46
+    body:
+      encoding: UTF-8
+      string: " "
+    http_version:
+  recorded_at: Sat, 26 Jul 2014 12:00:40 GMT
+recorded_with: VCR 2.9.2

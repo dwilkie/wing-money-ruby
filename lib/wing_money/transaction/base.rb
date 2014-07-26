@@ -46,7 +46,7 @@ module WingMoney
 
       [
         :amount, :wing_account_number, :wing_account_pin,
-        :user_id, :password, :biller_code
+        :user_id, :password
       ].each do |public_accessor|
         mod = Module.new
         include mod

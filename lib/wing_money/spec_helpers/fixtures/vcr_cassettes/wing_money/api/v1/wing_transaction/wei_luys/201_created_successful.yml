@@ -1,0 +1,55 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <%= endpoint %>
+    body:
+      encoding: UTF-8
+      string: wing_transaction_wei_luy[amount]=1000&wing_transaction_wei_luy[wing_account_number]=1614&wing_transaction_wei_luy[wing_account_pin]=2008&wing_transaction_wei_luy[user_id]=chibi_testing&wing_transaction_wei_luy[password]=WingChibi&wing_transaction_wei_luy[recipient_mobile]=85512239137
+    headers:
+      Authorization:
+      - Bearer test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Status:
+      - 201 Created
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Etag:
+      - '"9373a61c0a571a37ec9078b7d4735f8b"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - b7421ed4-eeb4-4209-a4a3-d3a05338310c
+      X-Runtime:
+      - '1.445766'
+      X-Powered-By:
+      - Phusion Passenger 4.0.46
+      Date:
+      - Sat, 26 Jul 2014 12:10:21 GMT
+      Server:
+      - nginx/1.6.0 + Phusion Passenger 4.0.46
+    body:
+      encoding: UTF-8
+      string: '{"id":18,"livemode":false,"created_at":"2014-07-26T12:10:20.107Z","result":{"wing_response":{"successful":true,"raw":{"req_wing_wei_luy_response":{"return":"\u003cStandardResponse\u003e\u003cErrorCode\u003e200\u003c/ErrorCode\u003e\u003cDetailResponse\u003eSuccess
+        WWL\ncode: 02657591\nRCPT#: 012239137 \nAmt: 10.00USD\nFee: 1.15USD\nTotal:
+        11.15USD \nBal: 94,676.78USD\nTID: AAD720590\u003c/DetailResponse\u003e\u003cTransactionID\u003eAAD720590\u003c/TransactionID\u003e\u003c/StandardResponse\u003e","@xmlns:ns":"http://external.ws.wingmoney.com"}},"result":"Success
+        WWL","error_code":"200","error_message":"Success WWL","amount_khr":0,"amount_usd":1000,"balance":{"amount":9467678,"currency":"usd"},"total":{"amount":1115,"currency":"usd"},"fee":{"amount":114,"currency":"usd"},"transaction_id":"AAD720590","tid":"AAD720590","recipient_mobile":"85512239137","recipient_code":"02657591"}},"executed":true}'
+    http_version:
+  recorded_at: Sat, 26 Jul 2014 12:10:19 GMT
+recorded_with: VCR 2.9.2
