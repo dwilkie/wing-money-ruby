@@ -134,7 +134,7 @@ You can use this API to transfer money from one Wing account to another.
 require 'wing_money'
 
 transaction = WingMoney::Transaction::WingToWing.new(
-  :api_key             => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
+  :api_key                         => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
   :amount                          =>  1000,           # Required. Amount in cents to transfer (e.g. $10 = 1000)
   :wing_account_number             => "383661",        # Required. Account number from which send the funds from
   :wing_account_pin                => "2008",          # Required. 4 digit wing pin of account number
@@ -196,7 +196,7 @@ wing_response["tid"]
 require 'wing_money'
 
 transaction = WingMoney::Transaction::WingToWing.new(
-  :api_key             => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
+  :api_key                         => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
   :amount                          =>  nil,            # Required. Amount in cents to transfer (e.g. $10 = 1000)
   :wing_account_number             => "383661",        # Required. Account number from which send the funds from
   :wing_account_pin                => "2008",          # Required. 4 digit wing pin of account number
@@ -238,7 +238,7 @@ You can use this API to transfer money from one Wing account anybody using the s
 require 'wing_money'
 
 transaction = WingMoney::Transaction::WeiLuy.new(
-  :api_key             => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
+  :api_key                         => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
   :amount                          =>  1000,           # Required. Amount in cents to transfer (e.g. $10 = 1000)
   :wing_account_number             => "383661",        # Required. Account number from which send the funds from
   :wing_account_pin                => "2008",          # Required. 4 digit wing pin of account number
@@ -299,7 +299,7 @@ wing_response["tid"]
 require 'wing_money'
 
 transaction = WingMoney::Transaction::WingToWing.new(
-  :api_key             => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
+  :api_key                         => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
   :amount                          =>  nil,            # Required. Amount in cents to transfer (e.g. $10 = 1000)
   :wing_account_number             => "9999",          # Required. Account number from which send the funds from
   :wing_account_pin                => "2008",          # Required. 4 digit wing pin of account number
