@@ -46,10 +46,42 @@ module WingMoney
           context "transaction is not executed" do
             let(:transaction_response_type) { "201_created_not_executed" }
 
-            it "should raise an error" do
+            it "should raise a TransactionNotExecutedError" do
               expect { do_execute }.to raise_error(
                 ::WingMoney::Error::Api::TransactionNotExecutedError
               )
+              assert_transaction_request!
+            end
+          end
+
+          context "invalid api key" do
+            let(:transaction_response_type) { "401_unauthorized" }
+
+            it "should raise an AuthenticationError" do
+              expect { do_execute }.to raise_error(
+                ::WingMoney::Error::Api::AuthenticationError
+              )
+              assert_transaction_request!
+            end
+          end
+
+          context "wing error (account blocked)" do
+            let(:transaction_response_type) { "201_created_wing_error_account_blocked" }
+
+            it "should raise a WingTransactionError" do
+              expect { do_execute }.to raise_error(
+                ::WingMoney::Error::Api::WingTransactionError
+              )
+              assert_transaction_request!
+            end
+          end
+
+          context "transaction executed" do
+            let(:transaction_response_type) { "201_created_successful" }
+
+            it "should not raise any errors" do
+              do_execute
+              subject.successful?.should == true
               assert_transaction_request!
             end
           end

@@ -19,7 +19,25 @@ module WingMoney
 
       def execute!
         self.params = client.execute_transaction!(resource_endpoint, api_key, payload)
+        raise(::WingMoney::Error::Api::TransactionNotExecutedError.new(201, id)) unless executed?
+        raise(::WingMoney::Error::Api::WingTransactionError.new(wing_error_code, id, wing_error_message)) unless successful?
         true
+      end
+
+      def successful?
+        wing_response["successful"]
+      end
+
+      def wing_response
+        result["wing_response"] || {}
+      end
+
+      def wing_error_code
+        wing_response["error_code"]
+      end
+
+      def wing_error_message
+        wing_response["error_message"]
       end
 
       def params=(options)
@@ -50,7 +68,17 @@ module WingMoney
       end
 
       def payload
-        {param_key => params}
+        {param_key => params.slice(*request_params.keys)}
+      end
+
+      def request_params
+        {
+          :amount => nil,
+          :wing_account_number => nil,
+          :wing_account_pin => nil,
+          :user_id => nil,
+          :password => nil
+        }
       end
 
       def resource_endpoint(type)

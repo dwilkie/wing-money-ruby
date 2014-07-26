@@ -1,6 +1,21 @@
 module WingMoney
   module SpecHelpers
     module ApiErrorExamples
+      module TransactionErrorExamples
+        shared_examples_for "an api transaction error" do
+          describe "#transaction_id" do
+            it "should be an accessor" do
+              subject.transaction_id.should_not be_nil
+            end
+          end
+
+          describe "#to_hash" do
+            it "should include transaction_id" do
+              subject.to_hash.keys.should include("transaction_id")
+            end
+          end
+        end
+      end
 
       shared_examples_for "an api error" do
         subject { build(factory_name) }

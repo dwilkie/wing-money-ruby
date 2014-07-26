@@ -12,6 +12,10 @@ module WingMoney
       def resource_endpoint
         super(:online_payments)
       end
+
+      def request_params
+        super.merge(:biller_code => nil)
+      end
     end
   end
 end

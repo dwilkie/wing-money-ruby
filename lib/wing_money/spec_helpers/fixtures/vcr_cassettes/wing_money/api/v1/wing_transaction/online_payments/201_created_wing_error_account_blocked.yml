@@ -1,0 +1,54 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: <%= endpoint %>
+    body:
+      encoding: UTF-8
+      string: wing_transaction_online_payment[amount]=1000&wing_transaction_online_payment[wing_account_number]=884832&wing_transaction_online_payment[wing_account_pin]=1234&wing_transaction_online_payment[user_id]=wing-api-user-id&wing_transaction_online_payment[password]=wing-api-secret&wing_transaction_online_payment[biller_code]=1244
+    headers:
+      Authorization:
+      - Bearer test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Status:
+      - 201 Created
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Etag:
+      - '"500a5f74de2f184c8e53d7e8edca658b"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 5b5b7c1d-62d4-43fb-b160-6f84b22d86a5
+      X-Runtime:
+      - '1.221942'
+      X-Powered-By:
+      - Phusion Passenger 4.0.46
+      Date:
+      - Sat, 26 Jul 2014 08:46:23 GMT
+      Server:
+      - nginx/1.6.0 + Phusion Passenger 4.0.46
+    body:
+      encoding: UTF-8
+      string: '{"id":5,"livemode":false,"created_at":"2014-07-26T08:46:22.668Z","result":{"wing_response":{"successful":false,"raw":{"online_payment_req_response":{"return":"\u003cStandardResponse\u003e\u003cErrorCode\u003e401\u003c/ErrorCode\u003e\u003cDetailResponse\u003eAccount
+        of wing-api-user-id was blocked!!!\u003c/DetailResponse\u003e\u003cTransactionID\u003eN/A\u003c/TransactionID\u003e\u003c/StandardResponse\u003e","@xmlns:ns":"http://external.ws.wingmoney.com"}},"result":null,"error_code":"401","error_message":"Account
+        of wing-api-user-id was blocked!!!","amount_khr":null,"amount_usd":null,"balance":{"amount":null,"currency":null},"total":{"amount":null,"currency":null},"fee":{"amount":null,"currency":null},"transaction_id":null,"tid":null,"recipient_account_name":null,"customer_account_name":null}},"executed":true}'
+    http_version:
+  recorded_at: Sat, 26 Jul 2014 08:46:21 GMT
+recorded_with: VCR 2.9.2

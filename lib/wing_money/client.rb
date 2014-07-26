@@ -2,7 +2,7 @@ module WingMoney
   class Client
     require 'httparty'
 
-    WING_API_ENDPOINT = "https://wing.bongloy.com/api/v1"
+    WING_API_ENDPOINT = "https://wing-money.bongloy.com/api/v1"
 
     attr_accessor :api_endpoint
 
@@ -14,7 +14,7 @@ module WingMoney
       handle_response(
         HTTParty.post(
           resource_endpoint(path),
-          :body => payload, :headers => authentication_headers(api_key).merge(headers)
+          :body => payload, :headers => authentication_headers(api_key).merge(headers), :verify => false
         )
       )
     end

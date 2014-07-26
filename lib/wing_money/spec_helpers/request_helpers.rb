@@ -17,7 +17,7 @@ module WingMoney
       private
 
       def transaction_endpoint(request_type)
-        api_endpoint = ENV["WING_API_ENDPOINT"] || "https://wing.bongloy.com/api/v1"
+        api_endpoint = ENV["WING_API_ENDPOINT"] || "https://wing-money.bongloy.com/api/v1"
         "#{api_endpoint}/wing_transaction/#{request_type}"
       end
     end
