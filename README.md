@@ -37,7 +37,6 @@ transaction = WingMoney::Transaction::OnlinePayment.new(
   :password            => "wing-api-pin",  # Optional. Wing API Password (issued by Wing)
   :description         => "some product",  # Optional. description of transaction (optional)
 )
-
 # => #<WingMoney::Transaction::OnlinePayment:0x007fa798eb1350 @params={"amount"=>1000, "wing_account_number"=>"383661", "wing_account_pin"=>"2008", "description"=>"some product", "biller_code"=>"2027", "user_id"=>"wing-api-user", "password"=>"wing-api-pin"}, @api_key="test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a">
 
 begin
@@ -48,14 +47,22 @@ rescue WingMoney::Error::Api::BaseError => error
   error_json = error.to_json
   error_message = error.message
 end
-
 # => true
 
 transaction.successful?
 # => true
 
+transaction.id
+# => 29     # unique id of transaction
+
+transaction.livemode
+# => false  # whether or not the transaction was live
+
+transaction.created_at
+# => "2014-07-27T05:26:51.446Z"
+
 wing_response = transaction.wing_response
-# = {"successful"=>true, "raw"=>{"online_payment_req_response"=>{"return"=>"<StandardResponse><ErrorCode>200</ErrorCode><DetailResponse>Success Bill Pay\nTo Mehk .\nCustomer Name:Cust USD\nAmt: 10.00USD\nTotal: 10.00USD\nBal : 106,588.90USD\nTID : ONL000972</DetailResponse><TransactionID>ONL000972</TransactionID></StandardResponse>", "@xmlns:ns"=>"http://external.ws.wingmoney.com"}}, "result"=>"Success Bill Pay", "error_code"=>"200", "error_message"=>"Success Bill Pay", "amount_khr"=>0, "amount_usd"=>1000, "balance"=>{"amount"=>10658890, "currency"=>"usd"}, "total"=>{"amount"=>1000, "currency"=>"usd"}, "fee"=>{"amount"=>nil, "currency"=>nil}, "transaction_id"=>"ONL000972", "tid"=>"ONL000972", "recipient_account_name"=>"Mehk .", "customer_account_name"=>"Cust USD"}
+# = {"successful"=>true, "result"=>"Success Bill Pay", "error_code"=>"200", "error_message"=>"Success Bill Pay", "amount_khr"=>0, "amount_usd"=>1000, "balance"=>{"amount"=>10658890, "currency"=>"usd"}, "total"=>{"amount"=>1000, "currency"=>"usd"}, "fee"=>{"amount"=>nil, "currency"=>nil}, "transaction_id"=>"ONL000972", "tid"=>"ONL000972", "recipient_account_name"=>"Mehk .", "customer_account_name"=>"Cust USD"}
 
 wing_response["result"]
 # => "Success Bill Pay"
@@ -100,7 +107,6 @@ transaction = WingMoney::Transaction::OnlinePayment.new(
   :password            => "wing-api-pin",  # Optional. Wing API Password (issued by Wing)
   :description         => "some product",  # Optional. description of transaction (optional)
 )
-
 # => #<WingMoney::Transaction::OnlinePayment:0x007fa798eb1350 @params={"amount=>nil, "wing_account_number"=>"383661", "wing_account_pin"=>"2008", "description"=>"some product", "biller_code"=>"2027", "user_id"=>"wing-api-user", "password"=>"wing-api-pin"}, @api_key="test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a">
 
 begin
@@ -111,15 +117,17 @@ rescue WingMoney::Error::Api::BaseError => error
   error_json = error.to_json
   error_message = error.message
 end
-
 # => "422. amount must be greater than 0"
 
 error_code
 # => 422
+
 error_hash
 # => {"errors"=>{"amount"=>["must be greater than 0"]}, "code"=>422}
+
 error_json
 # => "{\"errors\":{\"amount\":[\"must be greater than 0\"]},\"code\":422}"
+
 error_message
 # => "422. amount must be greater than 0"
 ```
@@ -142,7 +150,6 @@ transaction = WingMoney::Transaction::WingToWing.new(
   :user_id                         => "wing-api-user", # Optional. Wing API User ID (issued by Wing)
   :password                        => "wing-api-pin",  # Optional. Wing API Password (issued by Wing)
 )
-
 # => #<WingMoney::Transaction::WingToWing:0x007f4ce2534158 @params={"amount"=>1000, "wing_account_number"=>"383661", "wing_account_pin"=>"2008", "wing_destination_account_number"=>"1615"}, @api_key="test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a">
 
 begin
@@ -153,14 +160,22 @@ rescue WingMoney::Error::Api::BaseError => error
   error_json = error.to_json
   error_message = error.message
 end
-
 # => true
 
 transaction.successful?
 # => true
 
+transaction.id
+# => 30     # unique id of transaction
+
+transaction.livemode
+# => false  # whether or not the transaction was live
+
+transaction.created_at
+# => "2014-07-27T05:28:51.446Z"
+
 wing_response = transaction.wing_response
-# = {"successful"=>true, "raw"=>{"req_wing2_wing_response"=>{"return"=>"<StandardResponse><ErrorCode>200</ErrorCode><DetailResponse>Success W2W\nTo WCX KHR\nWING # 00001615\nAmt: 10.00USD=40,100KHR\nFee: 0.25USD\nTotal: 10.25USD\nBal: 106,578.65USD\nTID : EAA747564</DetailResponse><TransactionID>EAA747564</TransactionID></StandardResponse>", "@xmlns:ns"=>"http://external.ws.wingmoney.com"}}, "result"=>"Success W2W", "error_code"=>"200", "error_message"=>"Success W2W", "amount_khr"=>40100, "amount_usd"=>1000, "balance"=>{"amount"=>10657865, "currency"=>"usd"}, "total"=>{"amount"=>1025, "currency"=>"usd"}, "fee"=>{"amount"=>25, "currency"=>"usd"}, "transaction_id"=>"EAA747564", "tid"=>"EAA747564", "recipient_account_name"=>"WCX KHR", "recipient_account_number"=>"1615"}
+# = {"successful"=>true, "result"=>"Success W2W", "error_code"=>"200", "error_message"=>"Success W2W", "amount_khr"=>40100, "amount_usd"=>1000, "balance"=>{"amount"=>10657865, "currency"=>"usd"}, "total"=>{"amount"=>1025, "currency"=>"usd"}, "fee"=>{"amount"=>25, "currency"=>"usd"}, "transaction_id"=>"EAA747564", "tid"=>"EAA747564", "recipient_account_name"=>"WCX KHR", "recipient_account_number"=>"1615"}
 
 wing_response["result"]
 # => "Success W2W"
@@ -204,7 +219,6 @@ transaction = WingMoney::Transaction::WingToWing.new(
   :user_id                         => "wing-api-user", # Optional. Wing API User ID (issued by Wing)
   :password                        => "wing-api-pin",  # Optional. Wing API Password (issued by Wing)
 )
-
 # => #<WingMoney::Transaction::WingToWing:0x007f4ce2028268 @params={"amount"=>nil, "wing_account_number"=>"383661", "wing_account_pin"=>"2008", "wing_destination_account_number"=>"1615"}, @api_key="test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a">
 
 begin
@@ -215,15 +229,17 @@ rescue WingMoney::Error::Api::BaseError => error
   error_json = error.to_json
   error_message = error.message
 end
-
 # => "422. amount must be greater than 0"
 
 error_code
 # => 422
+
 error_hash
 # => {"errors"=>{"amount"=>["must be greater than 0"]}, "code"=>422}
+
 error_json
 # => "{\"errors\":{\"amount\":[\"must be greater than 0\"]},\"code\":422}"
+
 error_message
 # => "422. amount must be greater than 0"
 ```
@@ -246,7 +262,6 @@ transaction = WingMoney::Transaction::WeiLuy.new(
   :user_id                         => "wing-api-user", # Optional. Wing API User ID (issued by Wing)
   :password                        => "wing-api-pin",  # Optional. Wing API Password (issued by Wing)
 )
-
 # => #<WingMoney::Transaction::WeiLuy:0x007f4ce1a92fb0 @params={"amount"=>1000, "wing_account_number"=>"383661", "wing_account_pin"=>"2008", "recipient_mobile"=>"85512239137"}, @api_key="test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a">
 
 begin
@@ -257,14 +272,22 @@ rescue WingMoney::Error::Api::BaseError => error
   error_json = error.to_json
   error_message = error.message
 end
-
 # => true
 
 transaction.successful?
 # => true
 
+transaction.id
+# => 31     # unique id of transaction
+
+transaction.livemode
+# => false  # whether or not the transaction was live
+
+transaction.created_at
+# => "2014-07-27T05:29:51.446Z"
+
 wing_response = transaction.wing_response
-# => {"successful"=>true, "raw"=>{"req_wing_wei_luy_response"=>{"return"=>"<StandardResponse><ErrorCode>200</ErrorCode><DetailResponse>Success WWL\ncode: 26235470\nRCPT#: 012239137 \nAmt: 10.00USD\nFee: 1.50USD\nTotal: 11.50USD \nBal: 106,567.15USD\nTID: AAD720591</DetailResponse><TransactionID>AAD720591</TransactionID></StandardResponse>", "@xmlns:ns"=>"http://external.ws.wingmoney.com"}}, "result"=>"Success WWL", "error_code"=>"200", "error_message"=>"Success WWL", "amount_khr"=>0, "amount_usd"=>1000, "balance"=>{"amount"=>10656715, "currency"=>"usd"}, "total"=>{"amount"=>1150, "currency"=>"usd"}, "fee"=>{"amount"=>150, "currency"=>"usd"}, "transaction_id"=>"AAD720591", "tid"=>"AAD720591", "recipient_mobile"=>"85512239137", "recipient_code"=>"26235470"}
+# => {"successful"=>true, "result"=>"Success WWL", "error_code"=>"200", "error_message"=>"Success WWL", "amount_khr"=>0, "amount_usd"=>1000, "balance"=>{"amount"=>10656715, "currency"=>"usd"}, "total"=>{"amount"=>1150, "currency"=>"usd"}, "fee"=>{"amount"=>150, "currency"=>"usd"}, "transaction_id"=>"AAD720591", "tid"=>"AAD720591", "recipient_mobile"=>"85512239137", "recipient_code"=>"26235470"}
 
 wing_response["result"]
 # => "Success WWL"
@@ -307,7 +330,6 @@ transaction = WingMoney::Transaction::WingToWing.new(
   :user_id                         => "wing-api-user", # Optional. Wing API User ID (issued by Wing)
   :password                        => "wing-api-pin",  # Optional. Wing API Password (issued by Wing)
 )
-
 # => #<WingMoney::Transaction::WeiLuy:0x007f4ce294d898 @params={"amount"=>1000, "wing_account_number"=>"9999", "wing_account_pin"=>"2008", "recipient_mobile"=>"85512239137"}, @api_key="test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a">
 
 begin
@@ -318,15 +340,17 @@ rescue WingMoney::Error::Api::BaseError => error
   error_json = error.to_json
   error_message = error.message
 end
-
 # => "000040. Oops!\nRequeted amount should be greater than fees."
 
 error_code
 # => "000040"
+
 error_hash
-# => {"errors"=>{"base"=>["Oops!\nRequeted amount should be greater than fees."]}, "code"=>"000040", "transaction_id"=>23}
+# => {"errors"=>{"base"=>["Oops!\nRequeted amount should be greater than fees."]}, "code"=>"000040", "transaction_id"=>32}
+
 error_json
-# => "{\"errors\":{\"base\":[\"Oops!\\nRequeted amount should be greater than fees.\"]},\"code\":\"000040\",\"transaction_id\":23}"
+# => "{\"errors\":{\"base\":[\"Oops!\\nRequeted amount should be greater than fees.\"]},\"code\":\"000040\",\"transaction_id\":32}"
+
 error_message
 # => "000040. Oops!\nRequeted amount should be greater than fees."
 ```
