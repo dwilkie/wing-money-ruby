@@ -22,7 +22,15 @@ Or install it yourself as:
 
 You can use *Online Payment* to charge a Wing Account using the Wing account number and *PIN*. You will also need a biller code to use this API.
 
-#### Successful Requests
+#### CURL Example
+
+```
+curl --header "Authorization: Bearer test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a" -v -k -d "wing_transaction_online_payment[amount]=1000&wing_transaction_online_payment[wing_account_number]=383661&wing_transaction_online_payment[wing_account_pin]=2008&wing_transaction_online_payment[biller_code]=2027" "https://wing-money.bongloy.com/api/v1/wing_transaction/online_payments"
+```
+
+#### Ruby Examples
+
+##### Successful Requests
 
 ```ruby
 require 'wing_money'
@@ -92,7 +100,7 @@ wing_response["tid"]
 # => "ONL000972"
 ```
 
-#### Failed Requests
+##### Failed Requests
 
 ```ruby
 require 'wing_money'
@@ -136,7 +144,15 @@ error_message
 
 You can use this API to transfer money from one Wing account to another.
 
-#### Successful Requests
+#### CURL Example
+
+```
+curl --header "Authorization: Bearer test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a" -v -k -d "wing_transaction_wing_to_wing[amount]=1000&wing_transaction_wing_to_wing[wing_account_number]=748143&wing_transaction_wing_to_wing[wing_account_pin]=2008&wing_transaction_wing_to_wing[wing_destination_account_number]=1615" "https://wing-money.bongloy.com/api/v1/wing_transaction/wing_to_wings"
+```
+
+#### Ruby Examples
+
+##### Successful Requests
 
 ```ruby
 require 'wing_money'
@@ -205,7 +221,7 @@ wing_response["tid"]
 # => "EAA747564"
 ```
 
-#### Failed Requests
+##### Failed Requests
 
 ```ruby
 require 'wing_money'
@@ -248,7 +264,15 @@ error_message
 
 You can use this API to transfer money from one Wing account anybody using the sender's PIN and the recipient's mobile number.
 
-#### Successful Requests
+#### CURL Example
+
+```
+curl --header "Authorization: Bearer test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a" -v -k -d "wing_transaction_wei_luy[amount]=1000&wing_transaction_wei_luy[wing_account_number]=383661&wing_transaction_wei_luy[wing_account_pin]=2008&wing_transaction_wei_luy[recipient_mobile]=85512239137" "https://wing-money.bongloy.com/api/v1/wing_transaction/wei_luys"
+```
+
+#### Ruby Examples
+
+##### Successful Requests
 
 ```ruby
 require 'wing_money'
@@ -316,7 +340,7 @@ wing_response["fee"]
 wing_response["tid"]
 # => "AAD720591"
 ```
-#### Failed Requests
+##### Failed Requests
 
 ```ruby
 require 'wing_money'
