@@ -22,13 +22,22 @@ FactoryGirl.define do
 
   factory :wing_transaction, :class => WingMoney::Transaction::Base do
     skip_create
+    with_card_number
 
     ignore do
       params({})
     end
 
+    trait :with_card_number do
+      wing_card_number { params[:wing_card_number] }
+    end
+
+    trait :with_account_number do
+      wing_account_number { params[:wing_account_number] }
+    end
+
     amount { params[:amount] }
-    wing_account_number { params[:wing_account_number] }
+
     wing_account_pin { params[:wing_account_pin] }
     user_id { params[:user_id] }
     password { params[:password] }

@@ -46,8 +46,8 @@ module WingMoney
       end
 
       [
-        :amount, :wing_account_number, :wing_account_pin,
-        :user_id, :password
+        :amount, :wing_account_number, :wing_card_number,
+        :wing_account_pin, :user_id, :password
       ].each do |public_accessor|
         mod = Module.new
         include mod
@@ -76,6 +76,7 @@ module WingMoney
         {
           :amount => nil,
           :wing_account_number => nil,
+          :wing_card_number => nil,
           :wing_account_pin => nil,
           :user_id => nil,
           :password => nil

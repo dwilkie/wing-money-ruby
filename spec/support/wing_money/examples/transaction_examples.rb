@@ -18,7 +18,8 @@ module WingMoney
         end
 
         [
-          :amount, :wing_account_number, :wing_account_pin,
+          :amount, :wing_account_number, :wing_card_number,
+          :wing_account_pin,
           :user_id, :password
         ].each do |public_accessor|
           describe "##{public_accessor}" do
