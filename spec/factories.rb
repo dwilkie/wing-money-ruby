@@ -42,10 +42,6 @@ FactoryGirl.define do
     user_id { params[:user_id] }
     password { params[:password] }
 
-    factory :online_payment_transaction, :class => WingMoney::Transaction::OnlinePayment do
-      biller_code { params[:biller_code] }
-    end
-
     factory :wei_luy_transaction, :class => WingMoney::Transaction::WeiLuy do
       recipient_mobile { params[:recipient_mobile] }
     end

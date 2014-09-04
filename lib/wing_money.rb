@@ -1,6 +1,5 @@
 require "wing_money/version"
 
-require "wing_money/transaction/online_payment"
 require "wing_money/transaction/wei_luy"
 require "wing_money/transaction/wing_to_wing"
 
