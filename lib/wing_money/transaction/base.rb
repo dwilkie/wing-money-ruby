@@ -46,7 +46,7 @@ module WingMoney
       end
 
       [
-        :amount, :wing_account_number, :wing_card_number,
+        :amount, :currency, :wing_account_number, :wing_card_number,
         :wing_account_pin, :user_id, :password
       ].each do |public_accessor|
         mod = Module.new
@@ -75,6 +75,7 @@ module WingMoney
       def request_params
         {
           :amount => nil,
+          :currency => nil,
           :wing_account_number => nil,
           :wing_card_number => nil,
           :wing_account_pin => nil,

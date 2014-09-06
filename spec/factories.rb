@@ -37,7 +37,7 @@ FactoryGirl.define do
     end
 
     amount { params[:amount] }
-
+    currency { params[:currency] }
     wing_account_pin { params[:wing_account_pin] }
     user_id { params[:user_id] }
     password { params[:password] }
@@ -48,6 +48,10 @@ FactoryGirl.define do
 
     factory :wing_to_wing_transaction, :class => WingMoney::Transaction::WingToWing do
       wing_destination_account_number { params[:wing_destination_account_number] }
+      wing_destination_usd_account_number { params[:wing_destination_usd_account_number] }
+      wing_destination_khr_account_number { params[:wing_destination_khr_account_number] }
+      khr_usd_buy_rate { params[:khr_usd_buy_rate] }
+      khr_usd_sell_rate { params[:khr_usd_sell_rate] }
     end
   end
 end

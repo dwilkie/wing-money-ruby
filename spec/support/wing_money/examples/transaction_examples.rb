@@ -1,6 +1,13 @@
 module WingMoney
   module SpecHelpers
     module TransactionExamples
+
+      def assert_public_accessor!(public_accessor)
+        subject.public_send(:"#{public_accessor}=", public_accessor)
+        subject.public_send(public_accessor).should == public_accessor
+        subject.params[public_accessor].should == public_accessor
+      end
+
       shared_examples_for "a wing money transaction" do
         subject { build(factory_name, :params => valid_factory_params) }
 
@@ -18,15 +25,13 @@ module WingMoney
         end
 
         [
-          :amount, :wing_account_number, :wing_card_number,
+          :amount, :currency, :wing_account_number, :wing_card_number,
           :wing_account_pin,
           :user_id, :password
         ].each do |public_accessor|
           describe "##{public_accessor}" do
             it "should be a public accessor" do
-              subject.public_send(:"#{public_accessor}=", public_accessor)
-              subject.public_send(public_accessor).should == public_accessor
-              subject.params[public_accessor].should == public_accessor
+              assert_public_accessor!(public_accessor)
             end
           end
         end

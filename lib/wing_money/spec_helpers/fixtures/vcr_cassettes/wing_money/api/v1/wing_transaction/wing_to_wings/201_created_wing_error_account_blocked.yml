@@ -5,7 +5,7 @@ http_interactions:
     uri: <%= endpoint %>
     body:
       encoding: UTF-8
-      string: wing_transaction_wing_to_wing[amount]=1000&wing_transaction_wing_to_wing[wing_account_number]=884832&wing_transaction_wing_to_wing[wing_account_pin]=1234&wing_transaction_wing_to_wing[user_id]=wing-api-user-id&wing_transaction_wing_to_wing[password]=wing-api-secret&wing_transaction_wing_to_wing[wing_destination_account_number]=884834
+      string: wing_transaction_wing_to_wing[amount]=1000&wing_transaction_wing_to_wing[currency]=usd&wing_transaction_wing_to_wing[wing_card_number]=5018188000564398&wing_transaction_wing_to_wing[wing_account_pin]=1234&wing_transaction_wing_to_wing[user_id]=wing-api-user-id&wing_transaction_wing_to_wing[password]=wing-api-secret&wing_transaction_wing_to_wing[wing_destination_account_number]=884834&wing_transaction_wing_to_wing[wing_destination_usd_account_number]=884834&wing_transaction_wing_to_wing[wing_destination_khr_account_number]=1615&wing_transaction_wing_to_wing[khr_usd_buy_rate]=41.5&wing_transaction_wing_to_wing[khr_usd_sell_rate]=40
     headers:
       Authorization:
       - Bearer test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a
@@ -31,24 +31,22 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Etag:
-      - '"e7349956335851b8ef4b602bdef66883"'
+      - '"6aaeb1d85adb1d0081914907395f3236"'
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - c8fe0715-a5a2-4f22-970e-d2479a1f5751
+      - 9104bb14-35b7-4d53-889a-2d6032dde3e4
       X-Runtime:
-      - '1.131810'
+      - '0.725959'
       X-Powered-By:
       - Phusion Passenger 4.0.46
       Date:
-      - Sat, 26 Jul 2014 12:03:43 GMT
+      - Sat, 06 Sep 2014 09:13:23 GMT
       Server:
       - nginx/1.6.0 + Phusion Passenger 4.0.46
     body:
       encoding: UTF-8
-      string: '{"id":15,"livemode":false,"created_at":"2014-07-26T12:03:42.442Z","result":{"wing_response":{"successful":false,"raw":{"req_wing2_wing_response":{"return":"\u003cStandardResponse\u003e\u003cErrorCode\u003e401\u003c/ErrorCode\u003e\u003cDetailResponse\u003eAccount
-        of wing-api-user-id was blocked!!!\u003c/DetailResponse\u003e\u003cTransactionID\u003eN/A\u003c/TransactionID\u003e\u003c/StandardResponse\u003e","@xmlns:ns":"http://external.ws.wingmoney.com"}},"result":null,"error_code":"401","error_message":"Account
-        of wing-api-user-id was blocked!!!","amount_khr":null,"amount_usd":null,"balance":{"amount":null,"currency":null},"total":{"amount":null,"currency":null},"fee":{"amount":null,"currency":null},"transaction_id":null,"tid":null,"recipient_account_name":null,"recipient_account_number":null}},"executed":true}'
+      string: '{"id":61,"livemode":false,"created_at":"2014-09-06T09:13:22.289Z","result":{"wing_response":{"successful":false,"result":null,"error_code":"500","error_message":null,"amount_khr":null,"amount_usd":null,"balance":{"amount":null,"currency":null},"total":{"amount":null,"currency":null},"fee":{"amount":null,"currency":null},"transaction_id":null,"tid":null,"recipient_account_name":null,"recipient_account_number":null}},"executed":true}'
     http_version:
-  recorded_at: Sat, 26 Jul 2014 12:03:41 GMT
+  recorded_at: Sat, 06 Sep 2014 09:13:23 GMT
 recorded_with: VCR 2.9.2
