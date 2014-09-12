@@ -22,7 +22,7 @@ Or install it yourself as:
 
 See [this gist](https://gist.github.com/dwilkie/5aa1a63576ea5454821d)
 
-### Wing2Wing
+### WingToWing
 
 You can use this API to transfer money from one Wing account to another.
 
