@@ -37,7 +37,7 @@ require 'wing_money'
 
 transaction = WingMoney::Transaction::WingToWing.new(
   :api_key                             => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
-  :amount                              =>  1000,              # Required. The amount you wish to transfer. For usd this amount is in cents. For khr it's in Riel.
+  :amount                              => 1000,               # Required. The amount you wish to transfer. For usd this amount is in cents. For khr it's in Riel.
   :currency                            => "usd",              # Required. The currency of the transfer. Must be 'usd' or 'khr'.
   :wing_account_number                 => "383661",           # Required. The Wing account number of the sender. One of wing_account_number OR wing_card_number is required.
   :wing_card_number                    => "5018180000383661", # Required. The Wing card number of the sender. One of wing_card_number OR wing_account_number is required.
@@ -110,7 +110,7 @@ require 'wing_money'
 
 transaction = WingMoney::Transaction::WingToWing.new(
   :api_key                             => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a",
-  :amount                              =>  nil,
+  :amount                              => nil,
   :currency                            => "usd",
   :wing_account_number                 => "383661",
   :wing_card_number                    => "5018180000383661",
