@@ -18,34 +18,37 @@ Or install it yourself as:
 
 ## Usage
 
-### Online Payment
+### Request Parameters and CURL examples.
 
-You can use *Online Payment* to charge a Wing Account using the Wing account number and *PIN*. You will also need a biller code to use this API.
+See [this gist](https://gist.github.com/dwilkie/5aa1a63576ea5454821d)
 
-#### CURL Example
+### Wing2Wing
 
-```
-curl --header "Authorization: Bearer test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a" -v -k -d "wing_transaction_online_payment[amount]=1000&wing_transaction_online_payment[wing_account_number]=383661&wing_transaction_online_payment[wing_account_pin]=2008&wing_transaction_online_payment[biller_code]=2027" "https://wing-money.bongloy.com/api/v1/wing_transaction/online_payments"
-```
+You can use this API to transfer money from one Wing account to another.
 
 #### Ruby Examples
 
-##### Successful Requests
+The following examples actually work so feel free to try them out.
+
+##### Successful Request
 
 ```ruby
 require 'wing_money'
 
-transaction = WingMoney::Transaction::OnlinePayment.new(
-  :api_key             => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
-  :amount              =>  1000,           # Required. Amount in cents of which to charge (e.g. $10 = 1000)
-  :wing_account_number => "383661",        # Required. Account number from which to charge from
-  :wing_account_pin    => "2008",          # Required. 4 digit wing pin of account number
-  :biller_code         => "2027",          # Required. Biller Code (issued by Wing)
-  :user_id             => "wing-api-user", # Optional. Wing API User ID (issued by Wing)
-  :password            => "wing-api-pin",  # Optional. Wing API Password (issued by Wing)
-  :description         => "some product",  # Optional. description of transaction (optional)
+transaction = WingMoney::Transaction::WingToWing.new(
+  :api_key                             => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
+  :amount                              =>  1000,              # Required. The amount you wish to transfer. For usd this amount is in cents. For khr it's in Riel.
+  :currency                            => "usd",              # Required. The currency of the transfer. Must be 'usd' or 'khr'.
+  :wing_account_number                 => "383661",           # Required. The Wing account number of the sender. One of wing_account_number OR wing_card_number is required.
+  :wing_card_number                    => "5018180000383661", # Required. The Wing card number of the sender. One of wing_card_number OR wing_account_number is required.
+  :wing_account_pin                    => "2008",             # Required. The 4 digit Wing account PIN of the sender.
+  :wing_destination_account_number     => "1615",             # Required. The Wing account number of the receiver.
+  :khr_usd_buy_rate                    => 41,                 # Required. How much khr you will buy for 1 usd cent. E.g. if you request to transfer amount: '1000' in currency: 'usd' ($10) from a khr account and you set the khr_usd_buy_rate: '41' the receiver will receive 41000 in khr (41,000KHR). Note this rate will only apply if the requested currency is usd but the sender's account is khr.
+  :khr_usd_sell_rate                   => 40,                 # Required. How much khr you will sell for 1 usd cent. E.g. if you request to transfer amount: '40000' in currency: 'khr' (40,000KHR) from a usd account and you set te khr_usd_sell_rate: '40' the receiver will receive 1000 in usd ($10). Note this rate will only apply if the requested currency is khr but the sender's account is usd.
+  :wing_destination_usd_account_number => "1614",             # Optional. An alternate account to receive usd transactions. E.g. If the sender's account is usd but the destination account is khr and wing_destination_usd_account_number is set, wing_destination_usd_account will override wing_destination_account_number and the funds will be transfered to wing_destination_usd_account_number instead. Use to avoid Wing currency exchange fees.
+  :wing_destination_khr_account_number => "1615",             # Optional. An alternate account to receive khr transactions. E.g. If the sender's account is khr but the destination account is usd and wing_destination_khr_account_number is set, wing_destination_khr_account will override wing_destination_account_number and the funds will be transfered to wing_destination_khr_account_number instead. Use to avoid Wing currency exchange fees.
 )
-# => #<WingMoney::Transaction::OnlinePayment:0x007fa798eb1350 @params={"amount"=>1000, "wing_account_number"=>"383661", "wing_account_pin"=>"2008", "description"=>"some product", "biller_code"=>"2027", "user_id"=>"wing-api-user", "password"=>"wing-api-pin"}, @api_key="test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a">
+# => #<WingMoney::Transaction::WingToWing:0x007fac397e4338 @params={"amount"=>1000, "currency"=>"usd", "wing_account_number"=>"383661", "wing_card_number"=>"5018180000383661", "wing_account_pin"=>"2008", "wing_destination_account_number"=>"1615", "khr_usd_buy_rate"=>41, "khr_usd_sell_rate"=>40, "wing_destination_usd_account_number"=>"1614", "wing_destination_khr_account_number"=>"1615"}, @api_key="test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a">
 
 begin
   transaction.execute!
@@ -61,19 +64,19 @@ transaction.successful?
 # => true
 
 transaction.id
-# => 29     # unique id of transaction
+# => 66     # unique id of transaction
 
 transaction.livemode
 # => false  # whether or not the transaction was live
 
 transaction.created_at
-# => "2014-07-27T05:26:51.446Z"
+# => "2014-09-12T06:04:40.495Z"
 
 wing_response = transaction.wing_response
-# = {"successful"=>true, "result"=>"Success Bill Pay", "error_code"=>"200", "error_message"=>"Success Bill Pay", "amount_khr"=>0, "amount_usd"=>1000, "balance"=>{"amount"=>10658890, "currency"=>"usd"}, "total"=>{"amount"=>1000, "currency"=>"usd"}, "fee"=>{"amount"=>nil, "currency"=>nil}, "transaction_id"=>"ONL000972", "tid"=>"ONL000972", "recipient_account_name"=>"Mehk .", "customer_account_name"=>"Cust USD"}
+# => {"successful"=>true, "result"=>"SUCCESS", "error_code"=>nil, "error_message"=>"SUCCESS", "amount_khr"=>0, "amount_usd"=>1000, "balance"=>{"amount"=>10521588, "currency"=>"usd"}, "total"=>{"amount"=>1025, "currency"=>"usd"}, "fee"=>{"amount"=>25, "currency"=>"usd"}, "transaction_id"=>"EAA748178", "tid"=>"EAA748178", "recipient_account_name"=>"WCX USD", "recipient_account_number"=>"1614"}
 
 wing_response["result"]
-# => "Success Bill Pay"
+# => "SUCCESS"
 
 wing_response["amount_khr"]
 # => 0
@@ -82,134 +85,13 @@ wing_response["amount_usd"]
 # => 1000
 
 wing_response["recipient_account_name"]
-# => "Mehk ."
-
-wing_response["customer_account_name"]
-# => "Cust USD"
-
-wing_response["balance"]
-# => {"amount"=>10658890, "currency"=>"usd"}
-
-wing_response["total"]
-# => {"amount"=>1000, "currency"=>"usd"}
-
-wing_response["fee"]
-# => {"amount"=>nil, "currency"=>nil}
-
-wing_response["tid"]
-# => "ONL000972"
-```
-
-##### Failed Requests
-
-```ruby
-require 'wing_money'
-
-transaction = WingMoney::Transaction::OnlinePayment.new(
-  :api_key             => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
-  :amount              =>  nil,            # Required. Amount in cents of which to charge (e.g. $10 = 1000)
-  :wing_account_number => "383661",        # Required. Account number from which to charge from
-  :wing_account_pin    => "2008",          # Required. 4 digit wing pin of account number
-  :biller_code         => "2027",          # Required. Biller Code (issued by Wing)
-  :user_id             => "wing-api-user", # Optional. Wing API User ID (issued by Wing)
-  :password            => "wing-api-pin",  # Optional. Wing API Password (issued by Wing)
-  :description         => "some product",  # Optional. description of transaction (optional)
-)
-# => #<WingMoney::Transaction::OnlinePayment:0x007fa798eb1350 @params={"amount=>nil, "wing_account_number"=>"383661", "wing_account_pin"=>"2008", "description"=>"some product", "biller_code"=>"2027", "user_id"=>"wing-api-user", "password"=>"wing-api-pin"}, @api_key="test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a">
-
-begin
-  transaction.execute!
-rescue WingMoney::Error::Api::BaseError => error
-  error_code = error.code
-  error_hash = error.to_hash
-  error_json = error.to_json
-  error_message = error.message
-end
-# => "422. amount must be greater than 0"
-
-error_code
-# => 422
-
-error_hash
-# => {"errors"=>{"amount"=>["must be greater than 0"]}, "code"=>422}
-
-error_json
-# => "{\"errors\":{\"amount\":[\"must be greater than 0\"]},\"code\":422}"
-
-error_message
-# => "422. amount must be greater than 0"
-```
-
-### Wing To Wing
-
-You can use this API to transfer money from one Wing account to another.
-
-#### CURL Example
-
-```
-curl --header "Authorization: Bearer test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a" -v -k -d "wing_transaction_wing_to_wing[amount]=1000&wing_transaction_wing_to_wing[wing_account_number]=748143&wing_transaction_wing_to_wing[wing_account_pin]=2008&wing_transaction_wing_to_wing[wing_destination_account_number]=1615" "https://wing-money.bongloy.com/api/v1/wing_transaction/wing_to_wings"
-```
-
-#### Ruby Examples
-
-##### Successful Requests
-
-```ruby
-require 'wing_money'
-
-transaction = WingMoney::Transaction::WingToWing.new(
-  :api_key                         => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
-  :amount                          =>  1000,           # Required. Amount in cents to transfer (e.g. $10 = 1000)
-  :wing_account_number             => "383661",        # Required. Account number from which send the funds from
-  :wing_account_pin                => "2008",          # Required. 4 digit wing pin of account number
-  :wing_destination_account_number => "1615",          # Required. Account number in which to send the funds to
-  :user_id                         => "wing-api-user", # Optional. Wing API User ID (issued by Wing)
-  :password                        => "wing-api-pin",  # Optional. Wing API Password (issued by Wing)
-)
-# => #<WingMoney::Transaction::WingToWing:0x007f4ce2534158 @params={"amount"=>1000, "wing_account_number"=>"383661", "wing_account_pin"=>"2008", "wing_destination_account_number"=>"1615"}, @api_key="test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a">
-
-begin
-  transaction.execute!
-rescue WingMoney::Error::Api::BaseError => error
-  error_code = error.code
-  error_hash = error.to_hash
-  error_json = error.to_json
-  error_message = error.message
-end
-# => true
-
-transaction.successful?
-# => true
-
-transaction.id
-# => 30     # unique id of transaction
-
-transaction.livemode
-# => false  # whether or not the transaction was live
-
-transaction.created_at
-# => "2014-07-27T05:28:51.446Z"
-
-wing_response = transaction.wing_response
-# = {"successful"=>true, "result"=>"Success W2W", "error_code"=>"200", "error_message"=>"Success W2W", "amount_khr"=>40100, "amount_usd"=>1000, "balance"=>{"amount"=>10657865, "currency"=>"usd"}, "total"=>{"amount"=>1025, "currency"=>"usd"}, "fee"=>{"amount"=>25, "currency"=>"usd"}, "transaction_id"=>"EAA747564", "tid"=>"EAA747564", "recipient_account_name"=>"WCX KHR", "recipient_account_number"=>"1615"}
-
-wing_response["result"]
-# => "Success W2W"
-
-wing_response["amount_khr"]
-# => 40100
-
-wing_response["amount_usd"]
-# => 1000
-
-wing_response["recipient_account_name"]
-# => "WCX KHR"
+# => "WCX USD"
 
 wing_response["recipient_account_number"]
-# => "1615"
+# => "1614"
 
 wing_response["balance"]
-# => {"amount"=>10657865, "currency"=>"usd"}
+# => {"amount"=>10521588, "currency"=>"usd"}
 
 wing_response["total"]
 # => {"amount"=>1025, "currency"=>"usd"}
@@ -218,7 +100,7 @@ wing_response["fee"]
 # => {"amount"=>25, "currency"=>"usd"}
 
 wing_response["tid"]
-# => "EAA747564"
+# => "EAA748178"
 ```
 
 ##### Failed Requests
@@ -227,15 +109,19 @@ wing_response["tid"]
 require 'wing_money'
 
 transaction = WingMoney::Transaction::WingToWing.new(
-  :api_key                         => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
-  :amount                          =>  nil,            # Required. Amount in cents to transfer (e.g. $10 = 1000)
-  :wing_account_number             => "383661",        # Required. Account number from which send the funds from
-  :wing_account_pin                => "2008",          # Required. 4 digit wing pin of account number
-  :wing_destination_account_number => "1615",          # Required. Account number in which to send the funds to
-  :user_id                         => "wing-api-user", # Optional. Wing API User ID (issued by Wing)
-  :password                        => "wing-api-pin",  # Optional. Wing API Password (issued by Wing)
+  :api_key                             => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a",
+  :amount                              =>  nil,
+  :currency                            => "usd",
+  :wing_account_number                 => "383661",
+  :wing_card_number                    => "5018180000383661",
+  :wing_account_pin                    => "2008",
+  :wing_destination_account_number     => "1615",
+  :khr_usd_buy_rate                    => 41,
+  :khr_usd_sell_rate                   => 40,
+  :wing_destination_usd_account_number => "1614",
+  :wing_destination_khr_account_number => "1615"
 )
-# => #<WingMoney::Transaction::WingToWing:0x007f4ce2028268 @params={"amount"=>nil, "wing_account_number"=>"383661", "wing_account_pin"=>"2008", "wing_destination_account_number"=>"1615"}, @api_key="test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a">
+# => #<WingMoney::Transaction::WingToWing:0x007fac3a3b1828 @params={"amount"=>nil, "currency"=>"usd", "wing_account_number"=>"383661", "wing_card_number"=>"5018180000383661", "wing_account_pin"=>"2008", "wing_destination_account_number"=>"1615", "khr_usd_buy_rate"=>41, "khr_usd_sell_rate"=>40, "wing_destination_usd_account_number"=>"1614", "wing_destination_khr_account_number"=>"1615"}, @api_key="test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a">
 
 begin
   transaction.execute!
@@ -245,138 +131,19 @@ rescue WingMoney::Error::Api::BaseError => error
   error_json = error.to_json
   error_message = error.message
 end
-# => "422. amount must be greater than 0"
+# => "422. amount can't be blank, amount is not a number"
 
 error_code
 # => 422
 
 error_hash
-# => {"errors"=>{"amount"=>["must be greater than 0"]}, "code"=>422}
+# => {"errors"=>{"amount"=>["can't be blank", "is not a number"]}, "code"=>422}
 
 error_json
-# => "{\"errors\":{\"amount\":[\"must be greater than 0\"]},\"code\":422}"
+# => "{\"errors\":{\"amount\":[\"can't be blank\",\"is not a number\"]},\"code\":422}"
 
 error_message
-# => "422. amount must be greater than 0"
-```
-
-### Wei Luy
-
-You can use this API to transfer money from one Wing account anybody using the sender's PIN and the recipient's mobile number.
-
-#### CURL Example
-
-```
-curl --header "Authorization: Bearer test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a" -v -k -d "wing_transaction_wei_luy[amount]=1000&wing_transaction_wei_luy[wing_account_number]=383661&wing_transaction_wei_luy[wing_account_pin]=2008&wing_transaction_wei_luy[recipient_mobile]=85512239137" "https://wing-money.bongloy.com/api/v1/wing_transaction/wei_luys"
-```
-
-#### Ruby Examples
-
-##### Successful Requests
-
-```ruby
-require 'wing_money'
-
-transaction = WingMoney::Transaction::WeiLuy.new(
-  :api_key                         => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
-  :amount                          =>  1000,           # Required. Amount in cents to transfer (e.g. $10 = 1000)
-  :wing_account_number             => "383661",        # Required. Account number from which send the funds from
-  :wing_account_pin                => "2008",          # Required. 4 digit wing pin of account number
-  :recipient_mobile                => "85512239137",   # Required. Mobile Number of Recipient
-  :user_id                         => "wing-api-user", # Optional. Wing API User ID (issued by Wing)
-  :password                        => "wing-api-pin",  # Optional. Wing API Password (issued by Wing)
-)
-# => #<WingMoney::Transaction::WeiLuy:0x007f4ce1a92fb0 @params={"amount"=>1000, "wing_account_number"=>"383661", "wing_account_pin"=>"2008", "recipient_mobile"=>"85512239137"}, @api_key="test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a">
-
-begin
-  transaction.execute!
-rescue WingMoney::Error::Api::BaseError => error
-  error_code = error.code
-  error_hash = error.to_hash
-  error_json = error.to_json
-  error_message = error.message
-end
-# => true
-
-transaction.successful?
-# => true
-
-transaction.id
-# => 31     # unique id of transaction
-
-transaction.livemode
-# => false  # whether or not the transaction was live
-
-transaction.created_at
-# => "2014-07-27T05:29:51.446Z"
-
-wing_response = transaction.wing_response
-# => {"successful"=>true, "result"=>"Success WWL", "error_code"=>"200", "error_message"=>"Success WWL", "amount_khr"=>0, "amount_usd"=>1000, "balance"=>{"amount"=>10656715, "currency"=>"usd"}, "total"=>{"amount"=>1150, "currency"=>"usd"}, "fee"=>{"amount"=>150, "currency"=>"usd"}, "transaction_id"=>"AAD720591", "tid"=>"AAD720591", "recipient_mobile"=>"85512239137", "recipient_code"=>"26235470"}
-
-wing_response["result"]
-# => "Success WWL"
-
-wing_response["amount_khr"]
-# => 0
-
-wing_response["amount_usd"]
-# => 1000
-
-wing_response["recipient_mobile"]
-# => "85512239137"
-
-wing_response["recipient_code"] # give this to the recipient to redeem the transfer
-# => "26235470"
-
-wing_response["balance"]
-# => {"amount"=>10656715, "currency"=>"usd"}
-
-wing_response["total"]
-# => {"amount"=>1150, "currency"=>"usd"}
-
-wing_response["fee"]
-# => {"amount"=>150, "currency"=>"usd"}
-
-wing_response["tid"]
-# => "AAD720591"
-```
-##### Failed Requests
-
-```ruby
-require 'wing_money'
-
-transaction = WingMoney::Transaction::WingToWing.new(
-  :api_key                         => "test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a", # Required. Your API Key (issued by Bongloy)
-  :amount                          =>  nil,            # Required. Amount in cents to transfer (e.g. $10 = 1000)
-  :wing_account_number             => "9999",          # Required. Account number from which send the funds from
-  :wing_account_pin                => "2008",          # Required. 4 digit wing pin of account number
-  :wing_destination_account_number => "1615",          # Required. Account number in which to send the funds to
-  :user_id                         => "wing-api-user", # Optional. Wing API User ID (issued by Wing)
-  :password                        => "wing-api-pin",  # Optional. Wing API Password (issued by Wing)
-)
-# => #<WingMoney::Transaction::WeiLuy:0x007f4ce294d898 @params={"amount"=>1000, "wing_account_number"=>"9999", "wing_account_pin"=>"2008", "recipient_mobile"=>"85512239137"}, @api_key="test_a75d8f5cda47be2c0e164ff96022cb71b6f8dd379ff629eb7ea22c06bd1d1e0a">
-
-begin
-  transaction.execute!
-rescue WingMoney::Error::Api::BaseError => error
-  error_code = error.code
-  error_hash = error.to_hash
-  error_json = error.to_json
-  error_message = error.message
-end
-# => "000040. Oops!\nRequeted amount should be greater than fees."
-
-error_code
-# => "000040"
-
-error_hash
-# => {"errors"=>{"base"=>["Oops!\nRequeted amount should be greater than fees."]}, "code"=>"000040", "transaction_id"=>32}
-
-error_json
-# => "{\"errors\":{\"base\":[\"Oops!\\nRequeted amount should be greater than fees.\"]},\"code\":\"000040\",\"transaction_id\":32}"
-
-error_message
-# => "000040. Oops!\nRequeted amount should be greater than fees."
+# => "422. amount can't be blank, amount is not a number"
 ```
 
 ## Contributing
