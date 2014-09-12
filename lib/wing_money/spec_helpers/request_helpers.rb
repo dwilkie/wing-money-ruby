@@ -32,6 +32,10 @@ module WingMoney
           :online_payments => {
             :successful => :"201_created_successful",
             :failed => :"201_created_wing_error_account_blocked"
+          },
+          :wing_to_wings => {
+            :successful => :"201_created_successful",
+            :failed => :"201_created_wing_error_account_blocked"
           }
         }
       end
