@@ -31,5 +31,6 @@ end
 RSpec.configure do |config|
   config.before do
     WebMock.reset!
+    WebMock.clear_requests!
   end
 end
